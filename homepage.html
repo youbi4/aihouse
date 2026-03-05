@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI House UHBC | Official Landing Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="homepage.css">
+    <link rel="stylesheet" href="nav.css">
+    <link rel="stylesheet" href="hero.css">
+    <link rel="stylesheet" href="slider.css">
+    <link rel="stylesheet" href="marquee.css">
+    <link rel="stylesheet" href="latest.css">
+    <link rel="stylesheet" href="footer.css">
+    <link rel="stylesheet" href="responsive.css">
+</head>
+<body>
+    
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="homepage.html" class="logo">
+                    <img src="aihouse_logo.svg" alt="Ai House Logo" class="logo-header">
+                </a>
+
+                <button class="nav-toggle" aria-label="Toggle navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about_us">About us</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#events">Events Calendar</a></li>
+                    <li><a href="#ai_dashboard">AI Dashboard</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    
+    <section class="hero" id="home">
+        <div class="hero-greeting">
+            <span class="greeting-tag">Welcome to</span>
+            <h1>AI House UHBC</h1>
+            <p class="greeting-text">
+                A collaborative space where students, researchers, and partners explore, 
+                learn, and build real-world AI solutions for our community and beyond.
+            </p>
+            <div class="greeting-buttons">
+                <a href="#projects" class="btn btn-primary">Discover Projects</a>
+                <a href="#events" class="btn btn-secondary">Upcoming Events</a>
+            </div>
+        </div>
+        
+        <div class="hero-slider">
+            <div class="mini-slide active" data-index="0">
+                <div class="slide-bg">
+                    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&w=600" alt="AI Technology">
+                </div>
+                <div class="slide-overlay">
+                    <div class="slide-tags">
+                        <span class="tag tag-green">Training</span>
+                        <span class="tag tag-orange">Workshop</span>
+                    </div>
+                    <h3 class="slide-title">Deep Learning Workshop Series</h3>
+                    <p class="slide-desc">Join our hands-on workshops covering neural networks, computer vision, and NLP techniques.</p>
+                    <a href="#" class="slide-readmore">Read More</a>
+                </div>
+            </div>
+            
+            <div class="mini-slide" data-index="1">
+                <div class="slide-bg">
+                    <img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&w=600" alt="Innovation">
+                </div>
+                <div class="slide-overlay">
+                    <div class="slide-tags">
+                        <span class="tag tag-green">Innovation</span>
+                        <span class="tag tag-blue">Competition</span>
+                    </div>
+                    <h3 class="slide-title">Startup Pitch Competition 2026</h3>
+                    <p class="slide-desc">Showcase your AI-powered startup idea and win funding, mentorship, and resources.</p>
+                    <a href="#" class="slide-readmore">Read More</a>
+                </div>
+            </div>
+            
+            <div class="mini-slide" data-index="2">
+                <div class="slide-bg">
+                    <img src="https://images.unsplash.com/photo-1507413245164-6160d8298b31?auto=format&w=600" alt="Research">
+                </div>
+                <div class="slide-overlay">
+                    <div class="slide-tags">
+                        <span class="tag tag-green">Research</span>
+                        <span class="tag tag-orange">Symposium</span>
+                    </div>
+                    <h3 class="slide-title">Research Symposium 2026</h3>
+                    <p class="slide-desc">Present your research findings and explore cutting-edge AI research at UHBC.</p>
+                    <a href="#" class="slide-readmore">Read More</a>
+                </div>
+            </div>
+            
+            <div class="mini-slide" data-index="3">
+                <div class="slide-bg">
+                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&w=600" alt="Ethics">
+                </div>
+                <div class="slide-overlay">
+                    <div class="slide-tags">
+                        <span class="tag tag-green">Ethics</span>
+                        <span class="tag tag-blue">Roundtable</span>
+                    </div>
+                    <h3 class="slide-title">AI Ethics Roundtable</h3>
+                    <p class="slide-desc">Join the discussion on responsible AI development and ethical considerations.</p>
+                    <a href="#" class="slide-readmore">Read More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="marquee-section">
+        <div class="marquee-row">
+            <div class="marquee-content">
+                <div class="marquee-item">University Hassiba Ben Bouali Chlef <div class="orange-dot"></div> AI House <div class="orange-dot"></div></div>
+                <div class="marquee-item">University Hassiba Ben Bouali Chlef <div class="orange-dot"></div> AI House <div class="orange-dot"></div></div>
+                <div class="marquee-item">University Hassiba Ben Bouali Chlef <div class="orange-dot"></div> AI House <div class="orange-dot"></div></div>
+                <div class="marquee-item">University Hassiba Ben Bouali Chlef <div class="orange-dot"></div> AI House <div class="orange-dot"></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="latest-section" id="events">
+        <h2 class="section-title">Latest News & Events</h2>
+        <div class="grid-2x2">
+            <div class="event-card">
+                <div class="event-image">
+                    <img src="https://images.unsplash.com/photo-1591453089816-0fbb971b454c?auto=format&w=800" alt="Workshop">
+                    <div class="date-badge">March 15, 2026</div>
+                </div>
+                <div class="event-content">
+                    <span class="cat-tag">Training</span>
+                    <h3 class="event-title">Deep Learning Workshop Series</h3>
+                    <a href="#" class="event-link">View More</a>
+                </div>
+            </div>
+            <div class="event-card">
+                <div class="event-image">
+                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&w=800" alt="Ethics">
+                    <div class="date-badge">March 22, 2026</div>
+                </div>
+                <div class="event-content">
+                    <span class="cat-tag">Ethics</span>
+                    <h3 class="event-title">AI Ethics Roundtable</h3>
+                    <a href="#" class="event-link">View More</a>
+                </div>
+            </div>
+            <div class="event-card">
+                <div class="event-image">
+                    <img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&w=800" alt="Innovation">
+                    <div class="date-badge">April 05, 2026</div>
+                </div>
+                <div class="event-content">
+                    <span class="cat-tag">Innovation</span>
+                    <h3 class="event-title">Startup Pitch Competition</h3>
+                    <a href="#" class="event-link">View More</a>
+                </div>
+            </div>
+            <div class="event-card">
+                <div class="event-image">
+                    <img src="https://images.unsplash.com/photo-1507413245164-6160d8298b31?auto=format&w=800" alt="Research">
+                    <div class="date-badge">April 12, 2026</div>
+                </div>
+                <div class="event-content">
+                    <span class="cat-tag">Research</span>
+                    <h3 class="event-title">Research Symposium 2026</h3>
+                    <a href="#" class="event-link">View More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="footer-col footer-quick">
+            <h3>Quick Links</h3>
+            <ul class="footer-links">
+                <li><a href="#">- About AI House</a></li>
+                <li><a href="#">- Our Projects</a></li>
+                <li><a href="#">- Events Calendar</a></li>
+                <li><a href="#">- AI Dashboard</a></li>
+                <li><a href="#">- Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-col footer-logo">
+            <img src="uhbc_logo.svg" alt="UHBC Logo" class="logo-footer">
+        </div>
+        <div class="footer-col footer-contact">
+            <h3>Contact Us</h3>
+            <p>
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                </svg>
+                Chlef, Algeria
+            </p>
+            <p>
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                </svg>
+                aihouse@univ-chlef.dz
+            </p>
+            <div class="social-icons">
+                <a href="https://www.facebook.com/people/AI-HOUSE-UHBC/61585214978330/" aria-label="Facebook">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+                    </svg>
+                </a>
+                <a href="https://www.instagram.com/aihouseuhbc/" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                        <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="homepage.js"></script>
+</body>
+</html>

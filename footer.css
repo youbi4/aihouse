@@ -1,0 +1,103 @@
+footer {
+    background: #ffffff;
+    color: var(--text-dark);
+    padding: 60px 8% 40px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    border-top: 2px solid rgba(0, 0, 0, 0.06);
+}
+
+.footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-col h3 {
+    font-family: 'Montserrat';
+    margin-bottom: 20px;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dark);
+}
+
+.footer-col p {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    color: #6b7280;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.footer-links a:hover {
+    color: var(--primary-green);
+    padding-left: 5px;
+}
+
+.logo-footer {
+    height: 200px;
+    width: auto;
+    object-fit: contain;
+    opacity: 0.85;
+    transition: opacity 0.3s ease;
+}
+
+.logo-footer:hover {
+    opacity: 1;
+}
+
+.icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.social-icons {
+    display: flex;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.social-icons a {
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 102, 51, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-green);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.social-icons a:hover {
+    background: var(--primary-green);
+    color: white;
+    transform: translateY(-3px);
+}
+
+.social-icons a svg {
+    width: 20px;
+    height: 20px;
+}
