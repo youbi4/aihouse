@@ -11,16 +11,24 @@
     
     // Show specific slide
     function showSlide(index) {
-        // Remove active class from all slides and dots
-        slides.forEach(slide => slide.classList.remove('active'));
+        // clear exiting/active from all slides
+        slides.forEach(slide => {
+            slide.classList.remove('active', 'exiting');
+        });
         dots.forEach(dot => dot.classList.remove('active'));
-        
-        // Handle index bounds
-        if (index >= slides.length) currentSlide = 0;
-        else if (index < 0) currentSlide = slides.length - 1;
-        else currentSlide = index;
-        
-        // Add active class to current slide and dot
+
+        // handle index bounds
+        if (index >= slides.length) index = 0;
+        else if (index < 0) index = slides.length - 1;
+
+        // mark outgoing slide (currentSlide) if exists
+        if (slides[currentSlide]) {
+            slides[currentSlide].classList.add('exiting');
+        }
+
+        currentSlide = index;
+
+        // new slide will animate in from right due to base transform
         slides[currentSlide].classList.add('active');
         dots[currentSlide].classList.add('active');
     }
