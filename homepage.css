@@ -132,9 +132,11 @@ body.nav-open .nav-toggle span:nth-child(3) {
 /* Hero Section */
 .hero {
     min-height: calc(100vh - 70px);
-    background: url('bg.png');
+    background: linear-gradient(rgba(10, 15, 13, 0.7), rgba(10, 15, 13, 0.7)), 
+                url('https://media.licdn.com/dms/image/v2/C561BAQG6pyrz4-sddQ/company-background_10000/company-background_10000/0/1585383603223/universit_hassiba_ben_bouali_chlef_cover?e=2147483647&v=beta&t=MM0iycJLVHhiiCePhcX-a3c6beVQOhgVpqdi2-BmuG8');
     background-size: cover;
     background-position: center;
+    background-attachment: fixed;
     display: flex;
     align-items: center;
     position: relative;
@@ -142,12 +144,24 @@ body.nav-open .nav-toggle span:nth-child(3) {
 }
 
 .hero-greeting {
-    max-width: 500px;
+    max-width: 600px;
     z-index: 2;
+    animation: fadeInUp 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .A-text {
-    color: var(--primary-green);
+    color: #4ade80; /* Brighter green for dark bg */
 }
 
 .i-text {
@@ -156,33 +170,78 @@ body.nav-open .nav-toggle span:nth-child(3) {
 
 .greeting-tag {
     display: inline-block;
-    background: rgba(0, 0, 0, 0.06);
-    color: white;
+    background: rgba(255, 107, 0, 0.15);
+    color: #fff;
     border: 1px solid var(--primary-orange);
     padding: 6px 16px;
     border-radius: 20px;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 16px;
+    letter-spacing: 1.5px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(4px);
 }
 
 .hero-greeting h1 {
     font-family: 'Montserrat', sans-serif;
-    font-size: clamp(2.2rem, 4vw, 3.5rem);
-    font-weight: 700;
-    margin-bottom: 20px;
-    line-height: 1.15;
-    color: var(--text-dark);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    margin-bottom: 24px;
+    line-height: 1.1;
+    color: #fff;
+    text-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 
 .greeting-text {
-    font-size: 1.05rem;
-    line-height: 1.7;
-    margin-bottom: 28px;
-    color: var(--text-gray);
-    max-width: 450px;
+    font-size: 1.15rem;
+    line-height: 1.6;
+    margin-bottom: 35px;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 520px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Animations for scroll */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Performance and Responsiveness improvements */
+img {
+    content-visibility: auto;
+}
+
+@media (max-width: 992px) {
+    .hero {
+        padding: 100px 5%;
+        text-align: center;
+        justify-content: center;
+    }
+    .hero-greeting {
+        max-width: 100%;
+        margin-bottom: 60px;
+    }
+    .greeting-text {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .greeting-buttons {
+        justify-content: center;
+    }
+    .hero-slider {
+        position: relative;
+        width: 100%;
+        right: 0;
+        bottom: 0;
+    }
 }
 
 .greeting-buttons {

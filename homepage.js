@@ -109,15 +109,19 @@
     });
 })();
 
-// ===== Active Navigation Link on Scroll =====
+// ===== Active Navigation Link on Scroll & Reveal Animation =====
 (function() {
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-links a');
+    const reveals = document.querySelectorAll(".reveal");
     
-    function setActiveLink() {
+    function handleScroll() {
         let current = '';
         const scrollPos = window.pageYOffset + 100;
+        const windowHeight = window.innerHeight;
+        const elementVisible = 150;
         
+        // Active Link
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
             const sectionHeight = section.clientHeight;
@@ -132,10 +136,26 @@
                 link.classList.add('active');
             }
         });
+
+        // Reveal Animation
+        reveals.forEach(el => {
+            const elementTop = el.getBoundingClientRect().top;
+            if (elementTop < windowHeight - elementVisible) {
+                el.classList.add("active");
+            }
+        });
     }
     
-    window.addEventListener('scroll', setActiveLink);
-    window.addEventListener('load', setActiveLink);
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('load', () => {
+        handleScroll();
+        // Performance: Lazy load images
+        document.querySelectorAll('img').forEach(img => {
+            if (!img.getAttribute('loading')) {
+                img.setAttribute('loading', 'lazy');
+            }
+        });
+    });
 })();
 
 // ===== Smooth Scroll for Anchor Links =====
