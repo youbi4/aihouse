@@ -393,7 +393,7 @@
             }));
             showNotification('Login successful!', 'success');
             setTimeout(() => {
-                window.location.href = 'homepage.html';
+                window.location.href = '/pages/homepage.html';
             }, 800);
         } catch (err) {
             showNotification(err.message || 'Invalid credentials', 'error');
