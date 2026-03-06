@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | AI House UHBC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/profile.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="/pages/homepage.html" class="logo">
+                    <img src="/assets/aihouse_logo.svg" alt="AI House Logo" class="logo-header">
+                </a>
+
+                <button class="nav-toggle" aria-label="Toggle navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                
+                <ul class="nav-links">
+                    <li><a href="/pages/homepage.html">Home</a></li>
+                    <li><a href="/pages/contact.html">Contact</a></li>
+                </ul>
+                <div id="header-actions"></div>
+                <img src="/assets/uhbc_logo.svg" alt="UHBC Logo" class="logo-header">
+            </div>
+        </nav>
+    </header>
+
+    <main class="profile-container">
+        <div class="profile-content">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <img src="/assets/default-avatar.png" alt="Profile Avatar" id="profileImage">
+                    <label for="avatarUpload" class="avatar-upload-btn">
+                        <span>Change</span>
+                    </label>
+                    <input type="file" id="avatarUpload" accept="image/*" style="display: none;">
+                </div>
+                <div class="profile-info">
+                    <h1 id="displayName">Loading...</h1>
+                    <p id="displayRole" class="role-badge">Loading...</p>
+                </div>
+            </div>
+
+            <form id="profileForm" class="profile-form">
+                <div class="form-section">
+                    <h2>Personal Information</h2>
+                    
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+                        <span class="error-message" id="fullName-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                        <span class="error-message" id="username-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                        <span class="error-message" id="email-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="role">Role</label>
+                        <select id="role" name="role" required>
+                            <option value="">Select Your Role</option>
+                            <option value="Student">Student</option>
+                            <option value="Teacher">Teacher</option>
+                            <option value="Researcher">Researcher</option>
+                            <option value="Entrepreneur">Entrepreneur</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <span class="error-message" id="role-error"></span>
+                    </div>
+
+                    <div class="form-group other-role-hidden" id="otherRoleContainer">
+                        <label for="otherRole">Specify Your Role</label>
+                        <input type="text" id="otherRole" name="otherRole" placeholder="e.g., Intern">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                </div>
+
+                <div class="success-message hidden" id="successMessage">
+                    Your profile has been updated successfully!
+                </div>
+            </form>
+
+            <div class="danger-zone">
+                <h3>Danger Zone</h3>
+                <p>Once you delete your account, there is no going back. Please be certain.</p>
+                <button class="btn btn-danger" id="deleteAccountBtn">Delete Account</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" crossorigin="anonymous"></script>
+    <script src="/js/utils.js"></script>
+    <script src="/js/navbar.js"></script>
+    <script src="/js/profile.js"></script>
+</body>
+</html>
