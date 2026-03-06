@@ -1,7 +1,16 @@
 
 const SUPABASE_URL = 'https://rmmgzviytfpwedstuhly.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJtbWd6dml5dGZwd2Vkc3R1aGx5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1NzAwNTYsImV4cCI6MjA4ODE0NjA1Nn0.KemNQ3DUcyDwtCL5MZuFmcL-0COiIs2-yyoXxfIZ1P8';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// Initialize after Supabase library loads
+let supabase = null;
+
+function initSupabaseClient() {
+    if (!supabase && window.supabase) {
+        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+    return supabase;
+}
 
 let supabaseClient = null;
 let supabaseReady = null;
@@ -50,10 +59,7 @@ function loadSupabaseScript() {
 // Get Supabase Client
 async function getSupabaseClient() {
     await loadSupabaseScript();
-    if (!supabaseClient && window.supabase) {
-        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    }
-    return supabaseClient;
+    return initSupabaseClient();
 }
 
 // Get Current User from localStorage

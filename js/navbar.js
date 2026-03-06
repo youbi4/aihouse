@@ -18,18 +18,28 @@
         const currentPage = currentPath.split('/').pop() || 'homepage.html';
         
         navLinks.forEach(link => {
+            link.classList.remove('active');
             const href = link.getAttribute('href');
-            const isCurrentPage = 
-                (currentPage === 'homepage.html' && href === '#home') ||
-                (href === '/pages/contact.html' && currentPage === 'contact.html') ||
-                (href === '/pages/events.html' && currentPage === 'events.html') ||
-                (href === '#events' && currentPage === 'homepage.html') ||
-                false;
             
-            if (isCurrentPage) {
+            // Check for exact page match
+            if (href === '/pages/' + currentPage) {
                 link.classList.add('active');
-            } else {
-                link.classList.remove('active');
+            }
+            // Home page links
+            else if ((currentPage === 'homepage.html' || currentPage === '') && (href === '/' || href === '#home')) {
+                link.classList.add('active');
+            }
+            // About page
+            else if (currentPage === 'about.html' && (href === '/pages/about.html' || href === '#about_us')) {
+                link.classList.add('active');
+            }
+            // Events section
+            else if ((currentPage === 'events.html' || currentPage === 'homepage.html') && href === '#events') {
+                if (currentPage === 'events.html') link.classList.add('active');
+            }
+            // Contact page
+            else if (currentPage === 'contact.html' && href === '/pages/contact.html') {
+                link.classList.add('active');
             }
         });
     }

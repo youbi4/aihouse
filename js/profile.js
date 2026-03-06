@@ -3,256 +3,158 @@
 // ==========================================
 
 (function() {
+    // Toggle between view and edit mode
+    window.toggleEditMode = function() {
+        const viewMode = document.getElementById('viewMode');
+        const editMode = document.getElementById('editMode');
+        
+        viewMode.classList.toggle('hidden');
+        editMode.classList.toggle('hidden');
+        
+        if (!editMode.classList.contains('hidden')) {
+            populateFormFields();
+        }
+    };
+
     // Initialize profile page
     async function initProfile() {
-        if (!redirectIfGuest()) return;
-        
-        await loadUserProfile();
-        setupFormHandlers();
-        setupTabHandlers();
-        setupRoleChange();
-        setupDeleteAccount();
-    }
-    
-    // Load User Profile Data
-    async function loadUserProfile() {
+        // Check if user is logged in
         const user = getCurrentUser();
-        if (!user) return;
-        
+        if (!user || user.guest) {
+            showNotification('You must have an account first', 'warning');
+            setTimeout(() => {
+                window.location.href = '/index.html';
+            }, 2000);
+            return;
+        }
+
+        // Load user profile data
+        await loadUserProfile(user.id);
+        setupFormHandler();
+    }
+
+    // Load user profile data
+    async function loadUserProfile(userId) {
         try {
-            const userData = await getUserById(user.id);
+            const userData = await getUserById(userId);
+            
             if (!userData) {
                 showNotification('Failed to load profile', 'error');
                 return;
             }
+
+            // Update UI with user data
+            updateProfileUI(userData);
             
-            // Generate initials for avatar
-            const initials = userData.full_name
-                .split(' ')
-                .map(n => n[0])
-                .join('')
-                .slice(0, 2)
-                .toUpperCase();
-            
-            // Set avatar
-            const avatarContainer = document.getElementById('avatarContainer');
-            if (avatarContainer) {
-                avatarContainer.textContent = initials;
-            }
-            
-            // Set display information
-            document.getElementById('displayName').textContent = userData.full_name || 'User';
-            document.getElementById('displayUsername').textContent = `@${userData.username || 'user'} · ${userData.department || 'N/A'} · UHBC`;
-            document.getElementById('displayRole').textContent = userData.role || 'Member';
-            document.getElementById('displayBio').textContent = userData.bio || 'No bio yet. Click Edit to add one!';
-            
-            // Populate form fields
-            document.getElementById('fullName').value = userData.full_name || '';
-            document.getElementById('department').value = userData.department || '';
-            document.getElementById('role').value = userData.role || '';
-            document.getElementById('bio').value = userData.bio || '';
-            document.getElementById('settingsEmail').value = userData.email || '';
-            
-            if (userData.role === 'Other' && userData.other_role) {
-                document.getElementById('otherRole').value = userData.other_role;
-                document.getElementById('otherRoleContainer').style.display = 'block';
-            }
-            
-            // Store for comparison
-            window.originalUserData = userData;
-        } catch (e) {
-            console.error('Error loading profile:', e);
-            showNotification('Error loading profile data', 'error');
+            // Store for later use in edit form
+            window.userData = userData;
+        } catch (error) {
+            console.error('[v0] Profile load error:', error);
+            showNotification('Error loading profile', 'error');
         }
     }
-    
-    // Setup Form Handlers
-    function setupFormHandlers() {
+
+    // Update profile UI with user data
+    function updateProfileUI(userData) {
+        const name = userData.full_name || 'User';
+        const initials = name
+            .split(' ')
+            .map(n => n[0])
+            .join('')
+            .slice(0, 2)
+            .toUpperCase();
+
+        // Avatar
+        document.getElementById('profileAvatar').textContent = initials;
+
+        // Name and role
+        document.getElementById('profileName').textContent = name;
+        document.getElementById('profileRole').textContent = userData.role || 'Member';
+        document.getElementById('profileInfo').textContent = `@${userData.username || 'user'} · ${userData.department || 'Not specified'}`;
+
+        // Bio
+        document.getElementById('profileBio').textContent = userData.bio || 'No bio yet. Edit your profile to add one.';
+
+        // Details
+        document.getElementById('profileEmail').textContent = userData.email || '-';
+        document.getElementById('profileDept').textContent = userData.department || '-';
+        
+        const joinDate = userData.created_at 
+            ? new Date(userData.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+            : 'Unknown';
+        document.getElementById('profileJoined').textContent = joinDate;
+    }
+
+    // Populate form fields with current data
+    function populateFormFields() {
+        if (!window.userData) return;
+
+        document.getElementById('editName').value = window.userData.full_name || '';
+        document.getElementById('editEmail').value = window.userData.email || '';
+        document.getElementById('editDept').value = window.userData.department || '';
+        document.getElementById('editRole').value = window.userData.role || 'Student';
+        document.getElementById('editBio').value = window.userData.bio || '';
+    }
+
+    // Setup form handler
+    function setupFormHandler() {
         const form = document.getElementById('profileForm');
-        const editBtn = document.getElementById('editProfileBtn');
-        const cancelBtn = document.getElementById('cancelEditBtn');
-        const editPanel = document.getElementById('editPanel');
-        
-        if (editBtn) {
-            editBtn.addEventListener('click', () => {
-                editPanel.classList.toggle('hidden');
-                if (!editPanel.classList.contains('hidden')) {
-                    editBtn.textContent = '✖️ Close';
-                } else {
-                    editBtn.textContent = '✏️ Edit Profile';
-                }
-            });
-        }
-        
-        if (form) {
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                await saveProfile();
-            });
-        }
-        
-        if (cancelBtn) {
-            cancelBtn.addEventListener('click', () => {
-                if (window.originalUserData) {
-                    document.getElementById('fullName').value = window.originalUserData.full_name || '';
-                    document.getElementById('department').value = window.originalUserData.department || '';
-                    document.getElementById('role').value = window.originalUserData.role || '';
-                    document.getElementById('bio').value = window.originalUserData.bio || '';
-                }
-                editPanel.classList.add('hidden');
-                editBtn.textContent = '✏️ Edit Profile';
-            });
-        }
-    }
-    
-    // Save Profile Changes
-    async function saveProfile() {
-        const user = getCurrentUser();
-        if (!user) return;
-        
-        const fullName = document.getElementById('fullName').value.trim();
-        const department = document.getElementById('department').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const role = document.getElementById('role').value;
-        const bio = document.getElementById('bio').value.trim();
-        const otherRole = document.getElementById('otherRole').value.trim();
-        
-        // Validate
-        let hasError = false;
-        
-        if (!fullName) {
-            showFieldError('fullName', 'Full name is required');
-            hasError = true;
-        }
-        
-        if (!role) {
-            showFieldError('role', 'Role is required');
-            hasError = true;
-        }
-        
-        if (hasError) return;
-        
-        try {
-            const updateData = {
-                full_name: fullName,
-                department: department,
-                role: role,
-                bio: bio,
-                other_role: role === 'Other' ? otherRole : null,
-                updated_at: new Date().toISOString()
-            };
-            
-            const result = await updateUser(user.id, updateData);
-            if (result.success) {
-                showNotification('Profile updated successfully!', 'success');
-                
-                // Update display
-                const initials = fullName
-                    .split(' ')
-                    .map(n => n[0])
-                    .join('')
-                    .slice(0, 2)
-                    .toUpperCase();
-                
-                document.getElementById('avatarContainer').textContent = initials;
-                document.getElementById('displayName').textContent = fullName;
-                document.getElementById('displayRole').textContent = role;
-                document.getElementById('displayBio').textContent = bio || 'No bio yet. Click Edit to add one!';
-                
-                // Show success alert
-                const successAlert = document.getElementById('successAlert');
-                successAlert.classList.remove('hidden');
-                setTimeout(() => {
-                    successAlert.classList.add('hidden');
-                }, 3000);
-                
-                // Close edit panel
-                document.getElementById('editPanel').classList.add('hidden');
-                document.getElementById('editProfileBtn').textContent = '✏️ Edit Profile';
-                
-                // Update stored data
-                window.originalUserData = { ...window.originalUserData, ...updateData };
-            } else {
-                showNotification('Failed to update profile', 'error');
-            }
-        } catch (e) {
-            console.error('Error saving profile:', e);
-            showNotification('Error updating profile', 'error');
-        }
-    }
-    
-    // Setup Tab Handlers
-    function setupTabHandlers() {
-        const tabButtons = document.querySelectorAll('.tab-button');
-        
-        tabButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const tabName = button.dataset.tab;
-                
-                // Remove active class from all buttons and panes
-                tabButtons.forEach(btn => btn.classList.remove('active'));
-                document.querySelectorAll('.tab-pane').forEach(pane => {
-                    pane.classList.remove('active');
-                });
-                
-                // Add active class to clicked button and corresponding pane
-                button.classList.add('active');
-                const pane = document.getElementById(`${tabName}-tab`);
-                if (pane) {
-                    pane.classList.add('active');
-                }
-            });
+        if (!form) return;
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await saveProfile();
         });
     }
-    
-    // Setup Role Change
-    function setupRoleChange() {
-        const roleSelect = document.getElementById('role');
-        const otherRoleContainer = document.getElementById('otherRoleContainer');
-        
-        if (roleSelect) {
-            roleSelect.addEventListener('change', (e) => {
-                if (e.target.value === 'Other') {
-                    otherRoleContainer.style.display = 'block';
-                } else {
-                    otherRoleContainer.style.display = 'none';
-                }
-            });
+
+    // Save profile changes
+    async function saveProfile() {
+        try {
+            const user = getCurrentUser();
+            if (!user || !user.id) {
+                showNotification('User not found', 'error');
+                return;
+            }
+
+            const updates = {
+                full_name: document.getElementById('editName').value.trim(),
+                email: document.getElementById('editEmail').value.trim(),
+                department: document.getElementById('editDept').value.trim(),
+                role: document.getElementById('editRole').value,
+                bio: document.getElementById('editBio').value.trim()
+            };
+
+            // Validate
+            if (!updates.full_name || !updates.email) {
+                showNotification('Name and email are required', 'error');
+                return;
+            }
+
+            // Update in database
+            const updated = await updateUserProfile(user.id, updates);
+            
+            if (updated) {
+                // Update local storage
+                setCurrentUser({
+                    ...user,
+                    ...updates
+                });
+
+                // Update UI
+                updateProfileUI(updated);
+
+                // Toggle back to view mode
+                toggleEditMode();
+
+                showNotification('Profile updated successfully!', 'success');
+            }
+        } catch (error) {
+            console.error('[v0] Save profile error:', error);
+            showNotification('Failed to save profile', 'error');
         }
     }
-    
-    // Setup Delete Account
-    function setupDeleteAccount() {
-        // Delete account functionality would go here
-    }
-    
-    // Show Field Error
-    function showFieldError(fieldId, message) {
-        const field = document.getElementById(fieldId);
-        const errorEl = document.getElementById(`${fieldId}-error`);
-        
-        if (field) {
-            field.classList.add('error');
-        }
-        
-        if (errorEl) {
-            errorEl.textContent = message;
-            errorEl.classList.add('show');
-        }
-        
-        // Clear error on input
-        if (field) {
-            field.addEventListener('input', () => {
-                field.classList.remove('error');
-                if (errorEl) {
-                    errorEl.textContent = '';
-                    errorEl.classList.remove('show');
-                }
-            }, { once: true });
-        }
-    }
-    
-    // Initialize when DOM is ready
+
+    // Initialize on DOM ready
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initProfile);
     } else {

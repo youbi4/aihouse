@@ -595,35 +595,108 @@ img { content-visibility: auto; }
 
 @media (max-width: 1200px) { 
     .nav-container { width: 95%; } 
+    .latest-section { padding: 60px 5%; }
+    .section-title { font-size: 1.8rem; margin-bottom: 40px; }
+    .grid-2x2 { gap: 24px; }
+    .footer { gap: 30px; padding: 40px 5%; }
 }
 
 @media (max-width: 1100px) { 
     .hero-slider { width: 500px; height: 300px; } 
+    .hero-greeting h1 { font-size: clamp(2rem, 4vw, 3rem); }
 }
 
 @media (max-width: 992px) { 
     .hero { 
-        padding: 100px 5%; 
+        padding: 80px 5% 60px; 
         text-align: center; 
         justify-content: center; 
         flex-direction: column; 
-        align-items: flex-start; 
-        padding-bottom: 400px; 
+        align-items: center; 
+        min-height: auto;
     } 
-    .hero-greeting { max-width: 100%; margin-bottom: 60px; } 
+    .hero-greeting { max-width: 100%; margin-bottom: 40px; text-align: center; } 
     .greeting-text { margin-left: auto; margin-right: auto; } 
     .greeting-buttons { justify-content: center; } 
-    .hero-slider { position: relative; width: 100%; right: 0; bottom: 0; } 
+    .hero-slider { position: relative; width: 90%; right: 0; bottom: 0; max-width: 500px; margin: 0 auto; } 
+    .latest-section { padding: 50px 5%; }
+    .grid-2x2 { grid-template-columns: 1fr; gap: 20px; }
+    .footer { grid-template-columns: 1fr; padding: 40px 5%; }
 }
 
 @media (max-width: 768px) { 
     .nav-toggle { display: flex; } 
+    .nav-links { display: none; }
+    .logo-header { height: 40px; }
+    .hero-greeting h1 { font-size: clamp(1.5rem, 3.5vw, 2.5rem); margin-bottom: 16px; }
+    .greeting-tag { font-size: 0.65rem; padding: 4px 12px; }
+    .greeting-text { font-size: 1rem; }
+    .hero-slider { width: 100%; height: auto; aspect-ratio: 4/3; }
+    .slide-title { font-size: 1rem; }
+    .slide-desc { font-size: 0.75rem; }
+    .latest-section { padding: 40px 5%; }
+    .section-title { font-size: 1.5rem; margin-bottom: 30px; }
+    .event-card { border-radius: 8px; }
+    .event-image { height: 150px; }
+    .event-content { padding: 16px; }
+    .event-title { font-size: 1rem; margin-bottom: 10px; }
+    .cat-tag { font-size: 0.7rem; }
+    .footer { padding: 30px 5%; }
+    .logo-footer { height: 100px; }
+    .footer-col h3 { font-size: 0.9rem; margin-bottom: 15px; }
+    .footer-col p { font-size: 0.8rem; }
+    .footer-links a { font-size: 0.8rem; }
+    .social-icons a { width: 36px; height: 36px; }
+    .social-icons a svg { width: 18px; height: 18px; }
+}
+
+@media (max-width: 600px) { 
+    body { padding-top: 60px; }
+    .navbar { height: 60px; }
+    .hero { padding: 60px 4% 40px; }
+    .hero-greeting { text-align: center; }
+    .hero-greeting h1 { font-size: clamp(1.25rem, 3vw, 2rem); margin-bottom: 12px; }
+    .greeting-text { font-size: 0.95rem; margin-bottom: 20px; }
+    .greeting-buttons { flex-direction: column; gap: 10px; }
+    .btn { width: 100%; text-align: center; padding: 10px 20px; font-size: 0.85rem; }
+    .hero-slider { margin-top: 30px; height: auto; aspect-ratio: 3/2; }
+    .slide-overlay { padding: 15px; }
+    .slide-title { font-size: 0.9rem; max-width: 100%; }
+    .slide-desc { font-size: 0.7rem; margin-bottom: 10px; }
+    .slide-readmore { padding: 6px 12px; font-size: 0.7rem; }
+    .marquee-section { padding: 20px 0; }
+    .marquee-item { font-size: 0.8rem; letter-spacing: 1px; }
+    .orange-dot { margin: 0 15px; }
+    .latest-section { padding: 30px 4%; }
+    .section-title { font-size: 1.3rem; margin-bottom: 24px; }
+    .grid-2x2 { gap: 16px; }
+    .event-image { height: 120px; }
+    .event-content { padding: 12px; }
+    .event-title { font-size: 0.95rem; }
+    .date-badge { padding: 4px 10px; font-size: 0.7rem; }
+    .footer { padding: 24px 4%; gap: 20px; }
+    .footer-col h3 { font-size: 0.85rem; margin-bottom: 12px; }
+    .logo-footer { height: 80px; }
+    .footer-col p { font-size: 0.75rem; }
+    .footer-links a { font-size: 0.75rem; }
 }
 
 @media (max-width: 480px) { 
-    .nav-container { padding: 0 15px; } 
+    .nav-container { padding: 0 12px; } 
+    .hero { padding: 50px 3% 30px; }
+    .hero-greeting h1 { font-size: clamp(1.1rem, 2.5vw, 1.8rem); }
+    .greeting-text { font-size: 0.9rem; margin-bottom: 16px; }
+    .greeting-tag { font-size: 0.6rem; }
+    .latest-section { padding: 24px 3%; }
+    .section-title { font-size: 1.2rem; }
+    .footer { padding: 20px 3%; }
+    .logo-footer { height: 60px; }
 }
 
 @media (max-width: 360px) { 
-    .hero-greeting h1 { font-size: 1.6rem; } 
+    .hero-greeting h1 { font-size: 1.2rem; margin-bottom: 10px; }
+    .greeting-text { font-size: 0.85rem; }
+    .latest-section { padding: 20px 3%; }
+    .section-title { font-size: 1.1rem; }
+    .footer { gap: 15px; padding: 16px 3%; }
 }
