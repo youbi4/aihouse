@@ -3,7 +3,10 @@
     const SUPABASE_URL = 'https://rmmgzviytfpwedstuhly.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJtbWd6dml5dGZwd2Vkc3R1aGx5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1NzAwNTYsImV4cCI6MjA4ODE0NjA1Nn0.KemNQ3DUcyDwtCL5MZuFmcL-0COiIs2-yyoXxfIZ1P8';
 
-    const SUPABASE_SCRIPT_URL = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js';
+    var SUPABASE_SCRIPT_URLS = [
+        'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js',
+        'https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js'
+    ];
 
     let supabase = null;
     let resetEmail = '';
@@ -15,16 +18,30 @@
             supabaseReady = Promise.resolve();
             return supabaseReady;
         }
-        supabaseReady = new Promise(function(resolve, reject) {
-            var s = document.createElement('script');
-            s.src = SUPABASE_SCRIPT_URL;
-            s.async = false;
-            s.onload = function() { resolve(); };
-            s.onerror = function() {
-                reject(new Error('Could not load Supabase. Open this page from a local web server (e.g. Live Server) and check your internet connection.'));
-            };
-            document.head.appendChild(s);
-        });
+        var tryIndex = 0;
+        function tryLoad() {
+            return new Promise(function(resolve, reject) {
+                if (tryIndex >= SUPABASE_SCRIPT_URLS.length) {
+                    reject(new Error('Could not load Supabase. Check your connection or try again.'));
+                    return;
+                }
+                var url = SUPABASE_SCRIPT_URLS[tryIndex];
+                var s = document.createElement('script');
+                s.src = url;
+                s.crossOrigin = 'anonymous';
+                s.async = false;
+                s.onload = function() {
+                    if (typeof window.supabase !== 'undefined') resolve();
+                    else reject(new Error('Supabase script loaded but not ready.'));
+                };
+                s.onerror = function() {
+                    tryIndex++;
+                    tryLoad().then(resolve, reject);
+                };
+                document.head.appendChild(s);
+            });
+        }
+        supabaseReady = tryLoad();
         return supabaseReady;
     }
 
