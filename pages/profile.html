@@ -32,41 +32,64 @@
     </header>
 
     <main class="profile-container">
+        <div class="profile-header-bar">
+            <div class="header-breadcrumb">
+                <span class="breadcrumb-icon">🏠</span>
+                <span class="breadcrumb-text">AI House UHBC</span>
+                <span class="breadcrumb-sep">›</span>
+                <span class="breadcrumb-muted">Member Portal</span>
+                <span class="breadcrumb-sep">›</span>
+                <span class="breadcrumb-current">My Profile</span>
+            </div>
+        </div>
+
         <div class="profile-content">
-            <div class="profile-header">
-                <div class="profile-avatar">
-                    <img src="/assets/default-avatar.png" alt="Profile Avatar" id="profileImage">
-                    <label for="avatarUpload" class="avatar-upload-btn">
-                        <span>Change</span>
-                    </label>
-                    <input type="file" id="avatarUpload" accept="image/*" style="display: none;">
+            <div class="profile-card">
+                <div class="profile-header-flex">
+                    <div class="avatar-container" id="avatarContainer">AB</div>
+                    <div class="profile-info">
+                        <div class="profile-info-top">
+                            <h1 id="displayName">Loading...</h1>
+                            <p id="displayRole" class="role-badge">Loading...</p>
+                        </div>
+                        <p id="displayUsername" class="profile-meta">@username · Computer Science · UHBC</p>
+                        <p id="displayBio" class="profile-bio">Loading bio...</p>
+                        <p id="displayJoinDate" class="profile-join-date">📅 Member since January 2025</p>
+                    </div>
+                    <button id="editProfileBtn" class="btn-edit-profile">✏️ Edit Profile</button>
                 </div>
-                <div class="profile-info">
-                    <h1 id="displayName">Loading...</h1>
-                    <p id="displayRole" class="role-badge">Loading...</p>
+
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">0</div>
+                        <div class="stat-label">📅 Registered Events</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">0</div>
+                        <div class="stat-label">🔬 Projects</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">0</div>
+                        <div class="stat-label">📚 Resources Accessed</div>
+                    </div>
                 </div>
             </div>
 
-            <form id="profileForm" class="profile-form">
-                <div class="form-section">
-                    <h2>Personal Information</h2>
-                    
-                    <div class="form-group">
-                        <label for="fullName">Full Name</label>
-                        <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
-                        <span class="error-message" id="fullName-error"></span>
-                    </div>
+            <div id="editPanel" class="edit-panel hidden">
+                <h3 class="edit-panel-title">✏️ Edit Profile</h3>
+                <form id="profileForm" class="edit-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+                            <span class="error-message" id="fullName-error"></span>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input type="text" id="username" name="username" placeholder="Enter your username" required>
-                        <span class="error-message" id="username-error"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
-                        <span class="error-message" id="email-error"></span>
+                        <div class="form-group">
+                            <label for="department">Department</label>
+                            <input type="text" id="department" name="department" placeholder="Enter your department" required>
+                            <span class="error-message" id="department-error"></span>
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -82,26 +105,93 @@
                         <span class="error-message" id="role-error"></span>
                     </div>
 
-                    <div class="form-group other-role-hidden" id="otherRoleContainer">
+                    <div class="form-group" id="otherRoleContainer" style="display: none;">
                         <label for="otherRole">Specify Your Role</label>
                         <input type="text" id="otherRole" name="otherRole" placeholder="e.g., Intern">
                     </div>
+
+                    <div class="form-group">
+                        <label for="bio">Bio</label>
+                        <textarea id="bio" name="bio" placeholder="Tell us about yourself..." rows="3"></textarea>
+                        <span class="error-message" id="bio-error"></span>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-save">Save Changes</button>
+                        <button type="button" class="btn btn-cancel" id="cancelEditBtn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="successAlert" class="alert-success hidden">
+                ✅ Profile updated successfully!
+            </div>
+
+            <div class="tabs-container">
+                <div class="tabs-header">
+                    <button class="tab-button active" data-tab="overview">Overview</button>
+                    <button class="tab-button" data-tab="events">My Events <span class="badge">0</span></button>
+                    <button class="tab-button" data-tab="projects">My Projects <span class="badge">0</span></button>
+                    <button class="tab-button" data-tab="settings">Settings</button>
                 </div>
 
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                    <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
-                </div>
+                <div class="tabs-content">
+                    <div id="overview-tab" class="tab-pane active">
+                        <div class="tab-grid">
+                            <div class="tab-card">
+                                <h3 class="tab-card-title">🔬 Recent Projects</h3>
+                                <div id="projectsList" class="items-list">
+                                    <p class="empty-state">No projects yet</p>
+                                </div>
+                            </div>
+                            <div class="tab-card">
+                                <h3 class="tab-card-title">📅 Upcoming Events</h3>
+                                <div id="eventsList" class="items-list">
+                                    <p class="empty-state">No registered events</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="success-message hidden" id="successMessage">
-                    Your profile has been updated successfully!
-                </div>
-            </form>
+                    <div id="events-tab" class="tab-pane">
+                        <div class="tab-card">
+                            <h3 class="tab-card-title">📅 Registered Events</h3>
+                            <div id="registeredEventsList" class="items-list">
+                                <p class="empty-state">No registered events yet</p>
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="danger-zone">
-                <h3>Danger Zone</h3>
-                <p>Once you delete your account, there is no going back. Please be certain.</p>
-                <button class="btn btn-danger" id="deleteAccountBtn">Delete Account</button>
+                    <div id="projects-tab" class="tab-pane">
+                        <div style="display: flex; justify-content: flex-end; margin-bottom: 16px;">
+                            <button class="btn btn-submit">+ Submit New Project</button>
+                        </div>
+                        <div id="projectsFullList" class="items-list">
+                            <p class="empty-state">No projects yet</p>
+                        </div>
+                    </div>
+
+                    <div id="settings-tab" class="tab-pane">
+                        <div class="tab-card">
+                            <h3 class="tab-card-title">⚙️ Account Settings</h3>
+                            <form id="settingsForm" class="settings-form">
+                                <div class="form-group">
+                                    <label for="settingsEmail">Email Address</label>
+                                    <input type="email" id="settingsEmail" placeholder="you@example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="settingsPassword">New Password</label>
+                                    <input type="password" id="settingsPassword" placeholder="Leave blank to keep current">
+                                </div>
+                                <div class="form-group">
+                                    <label for="settingsPasswordConfirm">Confirm Password</label>
+                                    <input type="password" id="settingsPasswordConfirm" placeholder="Confirm new password">
+                                </div>
+                                <button type="submit" class="btn btn-save">Save Settings</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>

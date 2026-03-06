@@ -146,6 +146,97 @@
     // Setup Mobile Navigation Toggle
     function setupMobileNav() {
         const navToggle = document.querySelector('.nav-toggle');
+        const navLinksList = document.querySelector('.nav-links');
+        const user = getCurrentUser();
+        
+        if (!navToggle) return;
+        
+        navToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navToggle.classList.toggle('active');
+            
+            if (navLinksList) {
+                navLinksList.classList.toggle('active');
+            }
+            
+            // Add mobile dropdown items if not already there
+            if (!navLinksList || !navLinksList.querySelector('.mobile-actions')) {
+                createMobileMenu(navToggle, user);
+            }
+        });
+        
+        // Close menu on outside click
+        document.addEventListener('click', () => {
+            if (navToggle && navToggle.classList.contains('active')) {
+                navToggle.classList.remove('active');
+                if (navLinksList) {
+                    navLinksList.classList.remove('active');
+                }
+            }
+        });
+    }
+    
+    // Create Mobile Menu with animations
+    function createMobileMenu(navToggle, user) {
+        const navLinksContainer = document.querySelector('.nav-container');
+        let mobileMenu = document.querySelector('.mobile-menu-dropdown');
+        
+        if (!mobileMenu) {
+            mobileMenu = document.createElement('div');
+            mobileMenu.className = 'mobile-menu-dropdown';
+            navLinksContainer.appendChild(mobileMenu);
+        }
+        
+        // Build menu items
+        let menuHTML = `<div class="mobile-menu-content">`;
+        
+        // Navigation links
+        const navLinks = document.querySelectorAll('.nav-links a');
+        navLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            const text = link.textContent;
+            menuHTML += `<a href="${href}" class="mobile-menu-item">${text}</a>`;
+        });
+        
+        // Profile and logout for logged-in users
+        if (user) {
+            menuHTML += `<div class="mobile-menu-divider"></div>`;
+            menuHTML += `<a href="/pages/profile.html" class="mobile-menu-item">Profile</a>`;
+            if (user.is_admin) {
+                menuHTML += `<a href="/pages/admin.html" class="mobile-menu-item">Admin Dashboard</a>`;
+            }
+            menuHTML += `<a href="#" class="mobile-menu-item logout-item" onclick="logoutFromMobile(event)">Logout</a>`;
+        }
+        
+        menuHTML += `</div>`;
+        mobileMenu.innerHTML = menuHTML;
+        
+        // Add click handlers
+        mobileMenu.querySelectorAll('.mobile-menu-item').forEach(item => {
+            item.addEventListener('click', () => {
+                navToggle.classList.remove('active');
+                const navLinks = document.querySelector('.nav-links');
+                if (navLinks) {
+                    navLinks.classList.remove('active');
+                }
+                mobileMenu.classList.remove('active');
+            });
+        });
+    }
+    
+    // Global logout function for mobile menu
+    window.logoutFromMobile = function(e) {
+        e.preventDefault();
+        localStorage.removeItem('currentUser');
+        showNotification('Logged out successfully', 'success');
+        setTimeout(() => {
+            window.location.href = '/index.html';
+        }, 1000);
+    };
+    
+    // Setup Mobile Navigation Toggle - OLD
+    function setupMobileNavOld() {
+        const navToggle = document.querySelector('.nav-toggle');
         const navLinks = document.querySelectorAll('.nav-links li');
         
         if (navToggle) {
