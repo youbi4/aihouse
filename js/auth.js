@@ -1,4 +1,5 @@
 (function() {
+    // --- Supabase config: replace with your project URL and anon key from Supabase Dashboard → Settings → API ---
     const SUPABASE_URL = 'https://rmmgzviytfpwedstuhly.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJtbWd6dml5dGZwd2Vkc3R1aGx5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1NzAwNTYsImV4cCI6MjA4ODE0NjA1Nn0.KemNQ3DUcyDwtCL5MZuFmcL-0COiIs2-yyoXxfIZ1P8';
 
@@ -392,9 +393,7 @@
                 full_name: fullName
             }));
             showNotification('Login successful!', 'success');
-            setTimeout(() => {
-                window.location.href = 'homepage.html';
-            }, 800);
+            setTimeout(function() { window.location.href = 'home.html'; }, 800);
         } catch (err) {
             showNotification(err.message || 'Invalid credentials', 'error');
         }
@@ -403,8 +402,7 @@
     function continueAsGuest() {
         localStorage.setItem('currentUser', JSON.stringify({ guest: true, full_name: 'Guest' }));
         showNotification('You\'re browsing as Guest.', 'success');
-        showGuestBanner(true);
-        showLogin();
+        setTimeout(function() { window.location.href = 'home.html'; }, 600);
     }
 
     function showGuestBanner(forceShow) {

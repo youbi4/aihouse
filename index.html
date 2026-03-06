@@ -31,7 +31,7 @@
             <div class="form-panel animate-in">
 
                 <div class="nav-link">
-                <a href="#" id="show-login-link">← Already have an account? Sign in</a>
+                <a href="#" id="show-login-link">- Already have an account? Sign in</a>
                 </div>
 
                 <div class="form-container">
@@ -69,7 +69,7 @@
                             <label for="role">Role</label>
 
                             <select id="role">
-                                <option value="">-- Select role --</option>
+                                <option value="">Select Your Role</option>
                                 <option value="Student">Student</option>
                                 <option value="Teacher">Teacher</option>
                                 <option value="Researcher">Researcher</option>
@@ -81,7 +81,7 @@
                         </div>
 
                         <div class="form-group other-role-hidden" id="other-role-container">
-                            <label for="other-role">Specify your role</label>
+                            <label for="other-role">Specify Your Role</label>
                             <input type="text" id="other-role" placeholder="e.g., Intern">
                         </div>
 
@@ -113,7 +113,7 @@
         <div class="form-panel animate-in">
 
         <div class="nav-link">
-            <a href="#" id="show-register-link">← Don't have an account? Sign up</a>
+            <a href="#" id="show-register-link">- Don't have an account? Sign up</a>
         </div>
 
             <div class="form-container">
@@ -170,7 +170,7 @@
                     <button class="btn btn-primary" id="send-code-btn">Send reset code</button>
 
                     <div class="forgot-link forgot-center">
-                        <a href="#" id="cancel-forgot-step1">← Back to sign in</a>
+                        <a href="#" id="cancel-forgot-step1">Back to sign in</a>
                     </div>
 
                     </div>
@@ -187,9 +187,34 @@
                             <a href="#" id="resend-link">Resend link</a>
                         </div>
                         <div class="forgot-link forgot-center-small">
-                            <a href="#" id="cancel-forgot-step2">← Back to sign in</a>
+                            <a href="#" id="cancel-forgot-step2">Back to sign in</a>
                         </div>
 
+                    </div>
+
+                    <div id="forgot-step3" class="forgot-step hidden">
+                        <h3 class="forgot-title">Set new password</h3>
+                        <p class="forgot-text">Enter your new password below.</p>
+                        <div class="form-group">
+                            <label for="new-password-input">New password</label>
+                            <div class="input-wrapper">
+                                <input type="password" id="new-password-input" placeholder="········" minlength="8">
+                                <span class="toggle-password" data-target="new-password-input">👁</span>
+                            </div>
+                            <div class="error-message" id="new-password-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-password-input">Confirm password</label>
+                            <div class="input-wrapper">
+                                <input type="password" id="confirm-password-input" placeholder="········" minlength="8">
+                                <span class="toggle-password" data-target="confirm-password-input">👁</span>
+                            </div>
+                            <div class="error-message" id="confirm-password-error"></div>
+                        </div>
+                        <button type="button" class="btn btn-primary" id="set-new-password-btn">Set new password</button>
+                        <div class="forgot-link forgot-center-small">
+                            <a href="#" id="cancel-recovery-link">Cancel</a>
+                        </div>
                     </div>
                 </div>
             </div>
