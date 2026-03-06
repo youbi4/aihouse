@@ -365,7 +365,7 @@
             const { data: rows, error } = await getSupabase()
                 .from('users')
                 .select('email')
-                .ilike('username', identifier)
+                .eq('username', identifier.toLowerCase())
                 .limit(1);
             if (error || !rows?.length) {
                 showNotification('No account found with that username or email.', 'error');

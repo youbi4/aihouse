@@ -1,20 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us</title>
-    <link rel="stylesheet" href="/css/contact.css">
+    <title>Events | AI House UHBC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/events.css">
 </head>
-
 <body>
-    
     <header class="header">
         <nav class="navbar">
-            <div class="nav-container ">
+            <div class="nav-container">
                 <a href="/pages/homepage.html" class="logo">
-                    <img src="/assets/aihouse_logo.svg" alt="Ai House Logo" class="logo-header">
+                    <img src="/assets/aihouse_logo.svg" alt="AI House Logo" class="logo-header">
                 </a>
 
                 <button class="nav-toggle" aria-label="Toggle navigation">
@@ -25,75 +23,72 @@
                 
                 <ul class="nav-links">
                     <li><a href="/pages/homepage.html">Home</a></li>
-                    <li><a href="/pages/about.html">About us</a></li>
-                    <li><a href="/pages/projects.html">Projects</a></li>
-                    <li><a href="/pages/events.html">Events Calendar</a></li>
                     <li><a href="/pages/contact.html">Contact</a></li>
                 </ul>
                 <div id="header-actions"></div>
-                <img src="/assets/uhbc_logo.svg" alt="Ai House Logo" class="logo-header">
+                <img src="/assets/uhbc_logo.svg" alt="UHBC Logo" class="logo-header">
             </div>
         </nav>
     </header>
-    <section class="contact" >
 
-            <h1>Contact us</h1>
-            
-            <p class="description">
-                The Faculty of Computer Science at Hasiba Benbouali University of Chlef offers academic programs in computer
-                science and information technology. It focuses on developing students’ skills in programming, algorithms,
-                and modern technologies while promoting research, innovation, and academic excellence.
-                
-            </p>
-
-        <div class="line"></div>
-
-        <div class="social-box">
-            
-            <div class="card-container">
-                <h3 class="card-title">Facebook page</h3>
-                <div class="card">
-                    <img src="/assets/scocial media/face_profile.png" alt="Facebook Profile">
-                    <div class="card-overlay">
-                        <a href="https://www.facebook.com/profile.php?id=61585214978330&locale=fr_FR" class="visit">Visit</a>
-                    </div>
-                </div>
+    <main class="events-container">
+        <div class="events-header">
+            <div class="header-content">
+                <h1>Events Calendar</h1>
+                <p>Discover and join AI House events</p>
             </div>
-
-            <div class="card-container">
-                <h3 class="card-title">Instagram profile</h3>
-                <div class="card">
-                    <img src="/assets/scocial media/insta_profile.png" alt="Instagram Profile">
-                    <div class="card-overlay">
-                        <a href="https://www.instagram.com/aihouseuhbc/" class="visit">Visit</a>
-                    </div>
-                </div>
-            </div>
-
         </div>
 
-
-        <button class="btn">Location</button>
-
-        <div class="map">
-
-            <iframe src="https://maps.google.com/maps?q=university%20of%20chlef&t=&z=13&ie=UTF8&iwloc=&output=embed">
-            </iframe>
-
+        <div class="events-filters">
+            <div class="filter-group">
+                <input type="text" id="eventSearch" class="search-input" placeholder="Search events...">
+            </div>
+            <div class="filter-group">
+                <select id="categoryFilter" class="filter-select">
+                    <option value="">All Categories</option>
+                    <option value="Training">Training</option>
+                    <option value="Workshop">Workshop</option>
+                    <option value="Innovation">Innovation</option>
+                    <option value="Research">Research</option>
+                    <option value="Ethics">Ethics</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <button id="resetFilters" class="btn-filter">Reset Filters</button>
+            </div>
         </div>
 
-    </section>
+        <div id="eventsGrid" class="events-grid">
+            <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
+                <p style="font-size: 1.1rem; color: #666;">Loading events...</p>
+            </div>
+        </div>
+
+        <div id="noEventsMessage" class="no-events hidden">
+            <div class="no-events-content">
+                <p>No events found matching your search.</p>
+                <button id="clearSearch" class="btn btn-primary">Clear Search</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Event Details Modal -->
+    <div id="eventModal" class="modal hidden">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModal">&times;</button>
+            <div id="modalBody"></div>
+        </div>
+    </div>
 
     <footer class="footer">
         <div class="footer-col logo">
-            <img src="/assets/aihouse_logo_white.svg" alt="Ai House Logo" class="logo-footer">
+            <img src="/assets/aihouse_logo_white.svg" alt="AI House Logo" class="logo-footer">
         </div>
         <div class="footer-col footer-quick">
             <h3>Quick Links</h3>
             <ul class="footer-links">
-                <li><a href="/pages/about.html">- About AI House</a></li>
-                <li><a href="/pages/projects.html">- Our Projects</a></li>
-                <li><a href="/pages/events.html">- Events Calendar</a></li>
+                <li><a href="/pages/homepage.html">- Home</a></li>
                 <li><a href="/pages/contact.html">- Contact</a></li>
             </ul>
         </div>
@@ -133,8 +128,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" crossorigin="anonymous"></script>
     <script src="/js/utils.js"></script>
     <script src="/js/navbar.js"></script>
-    <script src="/js/contact.js"></script>
-
+    <script src="/js/events.js"></script>
 </body>
-
 </html>
