@@ -363,6 +363,45 @@ main {
     }
 }
 
+@media (max-width: 600px) {
+    .profile-hero {
+        padding: 40px 20px;
+        margin-bottom: 30px;
+    }
+
+    .profile-wrapper {
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .profile-avatar {
+        width: 80px;
+        height: 80px;
+        font-size: 32px;
+    }
+
+    .profile-name {
+        font-size: 24px;
+        text-align: center;
+        width: 100%;
+    }
+
+    .profile-role {
+        font-size: 14px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .profile-info-text {
+        width: 100%;
+        text-align: center !important;
+    }
+
+    #editBtn {
+        width: 100%;
+    }
+}
+
 @media (max-width: 480px) {
     .profile-hero {
         padding: 32px 12px;
@@ -371,18 +410,61 @@ main {
 
     .profile-wrapper {
         flex-direction: column;
+        align-items: stretch;
+    }
+
+    .profile-avatar {
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+        margin: 0 auto 16px;
+    }
+
+    .profile-header-content {
+        text-align: center;
     }
 
     .profile-name {
-        font-size: 20px;
+        font-size: 18px;
     }
 
     .profile-role {
-        font-size: 14px;
+        font-size: 12px;
+    }
+
+    .profile-info-text {
+        font-size: 12px;
+    }
+
+    #editBtn {
+        width: 100%;
+        margin-top: 12px;
+    }
+
+    .profile-content {
+        padding: 20px 12px;
+    }
+
+    .profile-view,
+    .profile-edit {
+        padding: 0;
+    }
+
+    .section-title {
+        font-size: 16px;
+        margin-bottom: 12px;
     }
 
     .section-content {
-        font-size: 14px;
+        font-size: 13px;
+    }
+
+    .details-grid {
+        gap: 12px;
+    }
+
+    .detail-item {
+        padding: 12px;
     }
 
     .detail-label {
@@ -390,7 +472,37 @@ main {
     }
 
     .detail-value {
+        font-size: 13px;
+    }
+
+    .edit-form {
+        padding: 0;
+    }
+
+    .form-group {
+        margin-bottom: 16px;
+    }
+
+    .form-group label {
+        font-size: 12px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
         font-size: 14px;
+        padding: 10px;
+        min-height: 40px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn {
+        width: 100%;
+        min-height: 44px;
     }
 }
 

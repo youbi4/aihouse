@@ -197,33 +197,47 @@
             navLinksContainer.appendChild(mobileMenu);
         }
         
-        // Build menu items
+        // Build menu items with smooth animations
         let menuHTML = `<div class="mobile-menu-content">`;
         
-        // Navigation links
+        // Navigation links with animation delays
         const navLinks = document.querySelectorAll('.nav-links a');
+        let delay = 0;
         navLinks.forEach(link => {
             const href = link.getAttribute('href');
             const text = link.textContent;
-            menuHTML += `<a href="${href}" class="mobile-menu-item">${text}</a>`;
+            menuHTML += `<a href="${href}" class="mobile-menu-item" style="animation-delay: ${delay}ms">${text}</a>`;
+            delay += 50;
         });
         
         // Profile and logout for logged-in users
         if (user) {
             menuHTML += `<div class="mobile-menu-divider"></div>`;
-            menuHTML += `<a href="/pages/profile.html" class="mobile-menu-item">Profile</a>`;
+            menuHTML += `<a href="/pages/profile.html" class="mobile-menu-item" style="animation-delay: ${delay}ms">Profile</a>`;
+            delay += 50;
             if (user.is_admin) {
-                menuHTML += `<a href="/pages/admin.html" class="mobile-menu-item">Admin Dashboard</a>`;
+                menuHTML += `<a href="/pages/admin.html" class="mobile-menu-item" style="animation-delay: ${delay}ms">Admin Dashboard</a>`;
+                delay += 50;
             }
-            menuHTML += `<a href="#" class="mobile-menu-item logout-item" onclick="logoutFromMobile(event)">Logout</a>`;
+            menuHTML += `<a href="#" class="mobile-menu-item logout-item" style="animation-delay: ${delay}ms" onclick="logoutFromMobile(event)">Logout</a>`;
         }
         
         menuHTML += `</div>`;
         mobileMenu.innerHTML = menuHTML;
         
+        // Show menu with animation
+        setTimeout(() => {
+            mobileMenu.classList.add('active');
+        }, 10);
+        
         // Add click handlers
         mobileMenu.querySelectorAll('.mobile-menu-item').forEach(item => {
-            item.addEventListener('click', () => {
+            item.addEventListener('click', (e) => {
+                if (item.classList.contains('logout-item')) {
+                    e.preventDefault();
+                }
+                
+                // Close menu with animation
                 navToggle.classList.remove('active');
                 const navLinks = document.querySelector('.nav-links');
                 if (navLinks) {

@@ -465,7 +465,11 @@ input:focus, select:focus {
     }
     
     .brand-description {
-        display: none;
+        display: none !important;
+    }
+    
+    .brand-content {
+        display: none !important;
     }
     
     .brand-content {
@@ -599,12 +603,26 @@ input:focus, select:focus {
     transition: all 0.2s ease;
     display: block;
     border-left: 4px solid transparent;
+    animation: slideInMenuLeft 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    opacity: 0;
+}
+
+@keyframes slideInMenuLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 .mobile-menu-item:hover {
     background: rgba(0, 102, 51, 0.08);
     color: var(--primary-green, #006633);
     border-left-color: var(--primary-green, #006633);
+    transform: translateX(4px);
 }
 
 .mobile-menu-item.logout-item {
@@ -614,6 +632,7 @@ input:focus, select:focus {
 .mobile-menu-item.logout-item:hover {
     background: rgba(224, 85, 85, 0.08);
     border-left-color: #e05555;
+    transform: translateX(4px);
 }
 
 .mobile-menu-divider {
