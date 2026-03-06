@@ -14,31 +14,37 @@
     // Setup Active Navigation Link Highlight
     function setupActiveNavLink() {
         const navLinks = document.querySelectorAll('.nav-links a');
-        const currentPath = window.location.pathname;
-        const currentPage = currentPath.split('/').pop() || 'homepage.html';
+        const currentPath = window.location.pathname.toLowerCase();
+        const currentHash = window.location.hash.toLowerCase();
+        
+        // Get current page name
+        const pageMatch = currentPath.match(/([^/]+\.html)?$/);
+        const currentPage = pageMatch ? pageMatch[1] : '';
+        
+
         
         navLinks.forEach(link => {
             link.classList.remove('active');
-            const href = link.getAttribute('href');
+            const href = link.getAttribute('href').toLowerCase();
             
-            // Check for exact page match
-            if (href === '/pages/' + currentPage) {
-                link.classList.add('active');
-            }
-            // Home page links
-            else if ((currentPage === 'homepage.html' || currentPage === '') && (href === '/' || href === '#home')) {
+            // Direct homepage match
+            if ((currentPath === '/' || currentPath.includes('homepage.html') || currentPath === '') && href === '#home') {
                 link.classList.add('active');
             }
             // About page
-            else if (currentPage === 'about.html' && (href === '/pages/about.html' || href === '#about_us')) {
+            else if (currentPath.includes('about.html') && (href === '#about_us' || href === '/pages/about.html')) {
                 link.classList.add('active');
             }
-            // Events section
-            else if ((currentPage === 'events.html' || currentPage === 'homepage.html') && href === '#events') {
-                if (currentPage === 'events.html') link.classList.add('active');
+            // Projects page
+            else if (currentPath.includes('projects.html') && (href === '#projects' || href === '/pages/projects.html')) {
+                link.classList.add('active');
+            }
+            // Events page
+            else if ((currentPath.includes('events.html') || currentHash === '#events') && href === '#events') {
+                link.classList.add('active');
             }
             // Contact page
-            else if (currentPage === 'contact.html' && href === '/pages/contact.html') {
+            else if (currentPath.includes('contact.html') && href === '/pages/contact.html') {
                 link.classList.add('active');
             }
         });
@@ -350,6 +356,87 @@ style.textContent = `
         margin: 4px 0;
     }
     
+    /* Mobile Menu Styles */
+    .mobile-menu-dropdown {
+        display: none;
+        position: fixed;
+        top: 70px;
+        right: 0;
+        width: 280px;
+        background: white;
+        border-left: 1px solid #e2e8f0;
+        box-shadow: -4px 4px 12px rgba(0, 0, 0, 0.1);
+        z-index: 2000;
+        max-height: calc(100vh - 70px);
+        overflow-y: auto;
+    }
+    
+    .mobile-menu-dropdown.active {
+        display: block;
+        animation: slideInRight 0.3s ease;
+    }
+    
+    @keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    .mobile-menu-content {
+        display: flex;
+        flex-direction: column;
+        padding: 12px 0;
+    }
+    
+    .mobile-menu-item {
+        padding: 14px 20px;
+        color: #1e293b;
+        text-decoration: none;
+        border-bottom: 1px solid #f1f5f9;
+        transition: all 0.2s ease;
+        display: block;
+    }
+    
+    .mobile-menu-item:hover {
+        background: #f8fafc;
+        color: #FF6B00;
+        padding-left: 24px;
+    }
+    
+    .mobile-menu-item.logout-item {
+        color: #ef4444;
+        font-weight: 500;
+    }
+    
+    .mobile-menu-item.logout-item:hover {
+        background: #fee2e2;
+    }
+    
+    .mobile-menu-divider {
+        height: 1px;
+        background: #e2e8f0;
+        margin: 8px 0;
+    }
+    
+    .nav-toggle.active span:nth-child(1) {
+        transform: rotate(45deg) translate(7px, 7px);
+        background: #FF6B00;
+    }
+    
+    .nav-toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .nav-toggle.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px);
+        background: #FF6B00;
+    }
+    
     @media (max-width: 768px) {
         .profile-icon {
             width: 36px;
@@ -363,6 +450,17 @@ style.textContent = `
         .dropdown-item {
             padding: 10px 12px;
             font-size: 0.9rem;
+        }
+        
+        .nav-toggle {
+            display: flex;
+        }
+        
+        .mobile-menu-dropdown {
+            width: 100%;
+            top: 70px;
+            right: 0;
+            border: none;
         }
     }
 `;
