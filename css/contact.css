@@ -155,13 +155,14 @@ animation: fadeInUp 0.8s ease;
     }
 }
 
-h1{
+h2{
 color:var(--primary-orange);
 font-size:48px;
 margin-bottom:20px;
 font-weight: 700;
 text-shadow: 0 2px 8px rgba(255, 107, 0, 0.1);
 animation: slideDown 0.6s ease;
+font-family: 'Playfair Display', serif;
 }
 
 @keyframes slideDown {

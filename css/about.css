@@ -9,6 +9,9 @@ body {
     background: #f5f9fc;
     color: #1e2b3c;
     line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .page-nav {
@@ -43,12 +46,11 @@ body {
 .pages-container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
-    overflow-y: scroll;
-    scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+}
+
+.about-main {
+    flex: 1;
 }
 
 .pages-container::-webkit-scrollbar {
@@ -56,13 +58,11 @@ body {
 }
 
 .page {
-    scroll-snap-align: start;
     width: 100%;
-    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem 4rem;
+    padding: 3rem 4rem;
 }
 
 .content-card {
@@ -161,21 +161,23 @@ body {
 .image-block {
     flex: 0 0 300px;
     height: 300px;
-    background: linear-gradient(145deg, #d9e8d9, #b8d2b8);
     border-radius: 2rem;
+    overflow: hidden;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     box-shadow: 0 20px 30px -10px rgba(0,50,25,0.2);
-    border: 2px dashed #006633;
-    color: #006633;
-    transition: 0.3s;
-    text-align: center;
-    font-size: 1.1rem;
-    font-weight: 500;
     animation: fadeInRight 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s forwards;
     opacity: 0;
+    background: linear-gradient(145deg, #d9e8d9, #b8d2b8);
+}
+
+.image-block img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 2rem;
+    display: block;
 }
 
 @keyframes fadeInRight {
@@ -187,22 +189,6 @@ body {
         opacity: 1;
         transform: translateX(0);
     }
-}
-
-.image-block i {
-    font-size: 4rem;
-    margin-bottom: 0.8rem;
-    opacity: 0.8;
-    color: #FF6B00;
-}
-
-.image-block span {
-    background: rgba(255,255,255,0.6);
-    padding: 0.3rem 1rem;
-    border-radius: 40px;
-    font-size: 0.95rem;
-    color: #006633;
-    border: 1px solid #006633;
 }
 
 .img-left .content-card {
@@ -235,24 +221,22 @@ body {
     font-weight: 650;
     letter-spacing: -0.5px;
     color: #f97316;
-    text-transform: uppercase;
     line-height: 1.2;
     text-align: center;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Playfair Display', serif;
 }
 
 .about-text {
-    font-size: 1.6rem;
-    line-height: 1.6;
+    font-size: .9rem;
     font-weight: 430;
     color: #1e1f28;
     margin-bottom: 2rem;
-    text-align: justify;
-    word-break: break-word;
-    max-width: 100%;
+    text-align: center;
+    max-width: 90%;
     margin-left: auto;
     margin-right: auto;
     font-family: 'Inter', sans-serif;
+    word-break: break-word;
 }
 
 .about-text strong {
@@ -367,3 +351,80 @@ body {
     background: #025e3083;
     font-weight: 600;
 }
+
+.footer { 
+    background: black; 
+    color: var(--text-light); 
+    padding: 50px 8% 40px; 
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 40px; 
+    position: relative; 
+} 
+
+.footer > * { position: relative; z-index: 2; }
+
+.footer-col { display: flex; flex-direction: column; gap: 10px; }
+
+.footer-col h3 { 
+    font-family: 'Montserrat', sans-serif; 
+    margin-bottom: 20px; 
+    font-size: 1rem; 
+    text-transform: uppercase; 
+    letter-spacing: 1px; 
+    color: var(--text-light); 
+} 
+
+.footer-col p { 
+    font-size: 0.9rem; 
+    color: #ffffff; 
+    margin-top: 5px; 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+} 
+
+.footer-links { list-style: none; padding: 0; margin: 0; }
+.footer-links li { margin-bottom: 10px; }
+
+.footer-links a { 
+    color: #ffffff; 
+    text-decoration: none; 
+    transition: all 0.3s ease; 
+    font-size: 0.9rem; 
+} 
+
+.footer-links a:hover { 
+    color: var(--primary-green); 
+    padding-left: 5px; 
+} 
+
+.logo-footer { height: 160px; opacity: 1; }
+.icon { width: 20px; height: 20px; flex-shrink: 0; }
+
+.social-icons { 
+    display: flex; 
+    gap: 12px; 
+    margin-top: 15px; 
+} 
+
+.social-icons a { 
+    width: 40px; 
+    height: 40px; 
+    background: rgba(0, 102, 51, 0.1); 
+    border-radius: 50%; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    color: #ffffff; 
+    transition: all 0.3s ease; 
+    text-decoration: none; 
+} 
+
+.social-icons a:hover { 
+    background: var(--primary-green); 
+    color: white; 
+    transform: scale(1.1); 
+} 
+
+.social-icons a svg { width: 20px; height: 20px; }
