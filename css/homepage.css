@@ -1,6 +1,4 @@
-/* ==========================================
-   HOMEPAGE STYLES - Enhanced with Profile Dropdown
-   ========================================== */
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
 
 :root { 
@@ -1601,4 +1599,96 @@ body.nav-open .nav-toggle span:nth-child(3) {
     color: rgb(206, 230, 208);
     background: #025e3083;
     font-weight: 600;
+}
+
+/* Events Loading State */
+.events-loading {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-gray);
+}
+
+.events-loading .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #e2e8f0;
+    border-top-color: var(--primary-orange);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 16px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* empty event */
+.events-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-gray);
+    font-style: italic;
+}
+
+.events-empty.hidden,
+.events-loading.hidden {
+    display: none;
+}
+
+/* event image*/
+.event-image {
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+}
+
+.event-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.event-image .image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary-green) 0%, #00994d 100%);
+    color: white;
+    font-size: 3rem;
+    font-weight: 700;
+}
+/* Spinner animation */
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Image placeholder */
+.image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #006633 0%, #00994d 100%);
+    color: white;
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+/* Event seats text */
+.event-seats {
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+/* Empty state hidden */
+.events-empty.hidden {
+    display: none;
 }
