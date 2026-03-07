@@ -103,6 +103,17 @@ window.addEventListener("scroll", () => {
     startAutoSlide();
 })();
 
+// ===== Hide "Join Community" button for logged-in users =====
+(function() {
+    const joinBtn = document.getElementById('joinCommunityBtn');
+    if (!joinBtn || typeof getCurrentUser !== 'function') return;
+
+    const user = getCurrentUser();
+    if (user && !user.guest) {
+        joinBtn.style.display = 'none';
+    }
+})();
+
 // ===== Mobile Navigation Toggle =====
 (function() {
     const navToggle = document.querySelector('.nav-toggle');
@@ -190,3 +201,5 @@ window.addEventListener("scroll", () => {
         });
     });
 })();
+
+

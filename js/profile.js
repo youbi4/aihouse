@@ -1,163 +1,103 @@
-// ==========================================
-// PROFILE PAGE - Manage user profile
-// ==========================================
+document.addEventListener('DOMContentLoaded', async () => {
+    // 1. Verify user is logged in
+    const isGuest = await isUserGuest();
+    const client = await getSupabaseClient();
+    const { data: { user }, error: userError } = await client.auth.getUser();
 
-(function() {
-    // Toggle between view and edit mode
-    window.toggleEditMode = function() {
-        const viewMode = document.getElementById('viewMode');
-        const editMode = document.getElementById('editMode');
-        
-        viewMode.classList.toggle('hidden');
-        editMode.classList.toggle('hidden');
-        
-        if (!editMode.classList.contains('hidden')) {
-            populateFormFields();
-        }
-    };
-
-    // Initialize profile page
-    async function initProfile() {
-        // Check if user is logged in
-        const user = getCurrentUser();
-        if (!user || user.guest) {
-            showNotification('You must have an account first', 'warning');
-            setTimeout(() => {
-                window.location.href = '/index.html';
-            }, 2000);
-            return;
-        }
-
-        // Load user profile data
-        await loadUserProfile(user.id);
-        setupFormHandler();
+    if (userError || !user || isGuest) {
+        showNotification('Please log in to view your profile', 'warning');
+        setTimeout(() => {
+            window.location.href = '/index.html';
+        }, 1500);
+        return;
     }
 
-    // Load user profile data
-    async function loadUserProfile(userId) {
-        try {
-            const userData = await getUserById(userId);
-            
-            if (!userData) {
-                showNotification('Failed to load profile', 'error');
-                return;
-            }
-
-            // Update UI with user data
-            updateProfileUI(userData);
-            
-            // Store for later use in edit form
-            window.userData = userData;
-        } catch (error) {
-            console.error('[v0] Profile load error:', error);
-            showNotification('Error loading profile', 'error');
-        }
+    // 2. Load user data from public.users table for full details
+    const userData = await getUserById(user.id);
+    if (!userData) {
+        showNotification('Error loading profile data', 'error');
+        return;
     }
 
-    // Update profile UI with user data
-    function updateProfileUI(userData) {
-        const name = userData.full_name || 'User';
-        const initials = name
-            .split(' ')
-            .map(n => n[0])
-            .join('')
-            .slice(0, 2)
-            .toUpperCase();
+    // 3. Populate DOM
+    document.getElementById('profile-fullname').textContent = userData.full_name || 'Not set';
+    document.getElementById('profile-username').textContent = `@${userData.username}` || 'Not set';
+    document.getElementById('profile-email').textContent = userData.email || 'Not set';
 
-        // Avatar
-        document.getElementById('profileAvatar').textContent = initials;
-
-        // Name and role
-        document.getElementById('profileName').textContent = name;
-        document.getElementById('profileRole').textContent = userData.role || 'Member';
-        document.getElementById('profileInfo').textContent = `@${userData.username || 'user'} · ${userData.department || 'Not specified'}`;
-
-        // Bio
-        document.getElementById('profileBio').textContent = userData.bio || 'No bio yet. Edit your profile to add one.';
-
-        // Details
-        document.getElementById('profileEmail').textContent = userData.email || '-';
-        document.getElementById('profileDept').textContent = userData.department || '-';
-        
-        const joinDate = userData.created_at 
-            ? new Date(userData.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
-            : 'Unknown';
-        document.getElementById('profileJoined').textContent = joinDate;
-    }
-
-    // Populate form fields with current data
-    function populateFormFields() {
-        if (!window.userData) return;
-
-        document.getElementById('editName').value = window.userData.full_name || '';
-        document.getElementById('editEmail').value = window.userData.email || '';
-        document.getElementById('editDept').value = window.userData.department || '';
-        document.getElementById('editRole').value = window.userData.role || 'Student';
-        document.getElementById('editBio').value = window.userData.bio || '';
-    }
-
-    // Setup form handler
-    function setupFormHandler() {
-        const form = document.getElementById('profileForm');
-        if (!form) return;
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            await saveProfile();
-        });
-    }
-
-    // Save profile changes
-    async function saveProfile() {
-        try {
-            const user = getCurrentUser();
-            if (!user || !user.id) {
-                showNotification('User not found', 'error');
-                return;
-            }
-
-            const updates = {
-                full_name: document.getElementById('editName').value.trim(),
-                email: document.getElementById('editEmail').value.trim(),
-                department: document.getElementById('editDept').value.trim(),
-                role: document.getElementById('editRole').value,
-                bio: document.getElementById('editBio').value.trim()
-            };
-
-            // Validate
-            if (!updates.full_name || !updates.email) {
-                showNotification('Name and email are required', 'error');
-                return;
-            }
-
-            // Update in database
-            const updated = await updateUserProfile(user.id, updates);
-            
-            if (updated) {
-                // Update local storage
-                setCurrentUser({
-                    ...user,
-                    ...updates
-                });
-
-                // Update UI
-                updateProfileUI(updated);
-
-                // Toggle back to view mode
-                toggleEditMode();
-
-                showNotification('Profile updated successfully!', 'success');
-            }
-        } catch (error) {
-            console.error('[v0] Save profile error:', error);
-            showNotification('Failed to save profile', 'error');
-        }
-    }
-
-    // Initialize on DOM ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initProfile);
+    const roleBadge = document.getElementById('profile-role');
+    if (userData.is_admin) {
+        roleBadge.textContent = 'Admin';
+        roleBadge.className = 'role-badge admin';
     } else {
-        initProfile();
+        roleBadge.textContent = userData.role || 'Member';
+        roleBadge.className = 'role-badge user';
     }
-})();
+
+    // 4. Handle Avatar
+    const avatarImg = document.getElementById('profile-avatar');
+    const initialsDiv = document.getElementById('profile-initials');
+
+    if (hasCustomAvatar(userData)) {
+        avatarImg.src = getAvatarUrl(userData);
+        avatarImg.style.display = 'block';
+        initialsDiv.style.display = 'none';
+    } else {
+        initialsDiv.textContent = getInitials(userData.full_name || userData.email);
+        avatarImg.style.display = 'none';
+        initialsDiv.style.display = 'block';
+    }
+    
+    // 5. Setup Edit Form Toggle & Values
+    const displayView = document.getElementById('profile-display-view');
+    const editView = document.getElementById('profile-edit-view');
+    const editBtn = document.getElementById('edit-profile-btn');
+    const cancelBtn = document.getElementById('cancel-edit-btn');
+    const editForm = document.getElementById('edit-profile-form');
+    
+    const editFullname = document.getElementById('edit-fullname');
+    const editUsername = document.getElementById('edit-username');
+    const editAvatar = document.getElementById('edit-avatar');
+    
+    editBtn.addEventListener('click', () => {
+        // Pre-fill fields
+        editFullname.value = userData.full_name || '';
+        editUsername.value = userData.username || '';
+        editAvatar.value = userData.avatar_url || '';
+        
+        displayView.style.display = 'none';
+        editView.style.display = 'block';
+    });
+    
+    cancelBtn.addEventListener('click', () => {
+        editView.style.display = 'none';
+        displayView.style.display = 'grid'; // Grid is used in main CSS
+    });
+    
+    editForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = document.getElementById('save-profile-btn');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Saving...';
+        submitBtn.disabled = true;
+        
+        const updates = {
+            full_name: editFullname.value.trim(),
+            username: editUsername.value.trim(),
+            avatar_url: editAvatar.value.trim()
+        };
+        
+        const { error } = await updateUserProfile(user.id, updates);
+        
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+        
+        if (error) {
+            showNotification(error.message || 'Failed to update profile', 'error');
+        } else {
+            showNotification('Profile updated successfully', 'success');
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        }
+    });
+});

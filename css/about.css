@@ -362,3 +362,8 @@ body {
         font-size: 1rem;
     }
 }
+#active-nav-link {
+    color: rgb(206, 230, 208);
+    background: #025e3083;
+    font-weight: 600;
+}
