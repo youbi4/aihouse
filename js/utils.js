@@ -104,116 +104,97 @@ async function redirectIfGuest() {
     return true;
 }
 
-//notification
-function showNotification(message, type = 'info', duration = 3000) {
-    const existing = document.querySelectorAll('.notification-alert');
-    existing.forEach(n => n.remove());
-    
-    const notification = document.createElement('div');
-    notification.className = `notification-alert notification-${type}`;
-    notification.innerHTML = `
-        <span class="notification-message">${escapeHtml(message)}</span>
-        <button class="notification-close" onclick="this.parentElement.remove()">×</button>
+function showNotification(message, type = 'info', duration = 3500) {
+    document.querySelectorAll('.notification-toast').forEach(n => n.remove());
+
+    const icons = {
+        success: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>`,
+        error:   `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`,
+        warning: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+        info:    `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`
+    };
+
+    const colors = {
+        success: { bg: '#006633', bar: '#00994d' },
+        error:   { bg: '#dc2626', bar: '#ef4444' },
+        warning: { bg: '#d97706', bar: '#f59e0b' },
+        info:    { bg: '#1d4ed8', bar: '#3b82f6' }
+    };
+
+    const c = colors[type] || colors.info;
+    const icon = icons[type] || icons.info;
+
+    const toast = document.createElement('div');
+    toast.className = 'notification-toast';
+    toast.innerHTML = `
+        <span class="nt-message">${escapeHtml(message)}</span>
     `;
-    
-    if (!document.getElementById('notification-styles')) {
+
+    if (!document.getElementById('notification-toast-styles')) {
         const style = document.createElement('style');
-        style.id = 'notification-styles';
+        style.id = 'notification-toast-styles';
         style.textContent = `
-            .notification-alert {
+            .notification-toast {
                 position: fixed;
-                top: 20px;
-                right: 20px;
-                padding: 16px 20px;
-                border-radius: 12px;
-                font-weight: 500;
-                font-size: 14px;
-                z-index: 10000;
-                animation: slideInRight 0.3s ease;
+                bottom: 28px;
+                left: 50%;
+                transform: translateX(-50%) translateY(20px);
                 display: flex;
                 align-items: center;
                 gap: 12px;
-                min-width: 300px;
-                max-width: 400px;
-                box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+                padding: 14px 18px;
+                border-radius: 14px;
+                font-family: 'Inter', sans-serif;
+                font-size: 0.9rem;
+                font-weight: 500;
+                color: #fff;
+                min-width: 280px;
+                max-width: 440px;
+                z-index: 99999;
+                box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+                overflow: hidden;
+                animation: ntSlideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
             }
-            
-            @keyframes slideInRight {
-                from { opacity: 0; transform: translateX(100%); }
-                to { opacity: 1; transform: translateX(0); }
+            @keyframes ntSlideUp {
+                from { opacity: 0; transform: translateX(-50%) translateY(30px); }
+                to   { opacity: 1; transform: translateX(-50%) translateY(0); }
             }
-            
-            @keyframes slideOutRight {
-                from { opacity: 1; transform: translateX(0); }
-                to { opacity: 0; transform: translateX(100%); }
+            @keyframes ntSlideDown {
+                from { opacity: 1; transform: translateX(-50%) translateY(0); }
+                to   { opacity: 0; transform: translateX(-50%) translateY(20px); }
             }
-            
-            .notification-info {
-                background: #3b82f6;
-                color: white;
-            }
-            
-            .notification-success {
-                background: #10b981;
-                color: white;
-            }
-            
-            .notification-error {
-                background: #ef4444;
-                color: white;
-            }
-            
-            .notification-warning {
-                background: #f59e0b;
-                color: white;
-            }
-            
-            .notification-close {
-                background: rgba(255,255,255,0.2);
-                border: none;
-                color: white;
-                width: 24px;
-                height: 24px;
-                border-radius: 50%;
-                cursor: pointer;
-                font-size: 16px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin-left: auto;
-                transition: background 0.2s;
-            }
-            
-            .notification-close:hover {
-                background: rgba(255,255,255,0.3);
-            }
-            
             @media (max-width: 480px) {
-                .notification-alert {
+                .notification-toast {
                     left: 16px;
                     right: 16px;
+                    transform: translateX(0) translateY(20px);
                     min-width: auto;
                     max-width: none;
-                    top: 80px;
+                    bottom: 80px;
+                }
+                @keyframes ntSlideUp {
+                    from { opacity: 0; transform: translateY(30px); }
+                    to   { opacity: 1; transform: translateY(0); }
+                }
+                @keyframes ntSlideDown {
+                    from { opacity: 1; transform: translateY(0); }
+                    to   { opacity: 0; transform: translateY(20px); }
                 }
             }
         `;
         document.head.appendChild(style);
     }
-    
-    document.body.appendChild(notification);
-    
+
+    toast.style.background = c.bg;
+
+    document.body.appendChild(toast);
+
     setTimeout(() => {
-        if (notification.parentElement) {
-            notification.style.animation = 'slideOutRight 0.3s ease';
-            setTimeout(() => notification.remove(), 300);
+        if (toast.parentElement) {
+            toast.style.animation = 'ntSlideDown 0.3s ease forwards';
+            setTimeout(() => toast.remove(), 300);
         }
     }, duration);
-}
-
-
-function getDefaultAvatarUrl(name) {
-    return '/assets/uhbc_logo.svg';
 }
 
 function getAvatarUrl(user) {
@@ -240,10 +221,6 @@ function getInitials(name) {
         .substring(0, 2);
 }
 
-
-// ==========================================
-// DATABASE / USER FUNCTIONS
-// ==========================================
 
 async function getUserById(userId) {
     if (!userId) return null;
@@ -289,18 +266,8 @@ function formatDate(dateString, options = {}) {
     try {
         return new Date(dateString).toLocaleDateString('en-US', defaultOptions);
     } catch (e) {
-        return 'Invalid Date';
+        return 'date missing';
     }
-}
-
-function formatDateTime(dateString) {
-    return formatDate(dateString, { 
-        year: 'numeric', 
-        month: 'short', 
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
 }
 
 function escapeHtml(text) {

@@ -969,12 +969,12 @@ body.nav-open .nav-toggle span:nth-child(3) {
     gap: 12px; 
     margin-top: 15px; 
 } 
-
 .social-icons a { 
     width: 40px; 
     height: 40px; 
-    background: rgba(0, 102, 51, 0.1); 
+    background: transparent; 
     border-radius: 50%; 
+    border: 1px solid var(--primary-green);
     display: flex; 
     align-items: center; 
     justify-content: center; 
@@ -984,9 +984,10 @@ body.nav-open .nav-toggle span:nth-child(3) {
 } 
 
 .social-icons a:hover { 
-    background: var(--primary-green); 
-    color: white; 
-    transform: scale(1.1); 
+    background: transparent; 
+    border-color: var(--primary-orange);
+    color: var(--primary-orange); 
+    transform: scale(1.05); 
 } 
 
 .social-icons a svg { width: 20px; height: 20px; }

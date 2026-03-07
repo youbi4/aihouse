@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Verify user is logged in
     const isGuest = await isUserGuest();
     const client = await getSupabaseClient();
     const { data: { user }, error: userError } = await client.auth.getUser();
@@ -11,15 +10,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         }, 1500);
         return;
     }
-
-    // 2. Load user data from public.users table for full details
     const userData = await getUserById(user.id);
     if (!userData) {
         showNotification('Error loading profile data', 'error');
         return;
     }
 
-    // 3. Populate DOM
     document.getElementById('profile-fullname').textContent = userData.full_name || 'Not set';
     document.getElementById('profile-username').textContent = `@${userData.username}` || 'Not set';
     document.getElementById('profile-email').textContent = userData.email || 'Not set';
@@ -33,7 +29,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         roleBadge.className = 'role-badge user';
     }
 
-    // 4. Handle Avatar
     const avatarImg = document.getElementById('profile-avatar');
     const initialsDiv = document.getElementById('profile-initials');
 
@@ -47,7 +42,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         initialsDiv.style.display = 'block';
     }
     
-    // 5. Setup Edit Form Toggle & Values
     const displayView = document.getElementById('profile-display-view');
     const editView = document.getElementById('profile-edit-view');
     const editBtn = document.getElementById('edit-profile-btn');
@@ -59,7 +53,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const editAvatar = document.getElementById('edit-avatar');
     
     editBtn.addEventListener('click', () => {
-        // Pre-fill fields
         editFullname.value = userData.full_name || '';
         editUsername.value = userData.username || '';
         editAvatar.value = userData.avatar_url || '';
@@ -70,7 +63,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     cancelBtn.addEventListener('click', () => {
         editView.style.display = 'none';
-        displayView.style.display = 'grid'; // Grid is used in main CSS
+        displayView.style.display = 'grid';
     });
     
     editForm.addEventListener('submit', async (e) => {

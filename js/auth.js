@@ -1,6 +1,3 @@
-// ==========================================
-// AUTH SERVICE
-// ==========================================
 class AuthService {
     static async register(userData) {
         const { fullname, username, email, password, role, roleCustom } = userData;
@@ -62,7 +59,6 @@ class AuthService {
 
         let email = id;
         
-        // If input has no @, treat as username and look up email from users table
         if (!id.includes('@')) {
             const { data: emailResult, error } = await supabase.rpc('get_email_by_username', {
                 p_username: id
@@ -81,8 +77,6 @@ class AuthService {
 
         if (error) throw error;
 
-        // Try to load full profile from "users" table so all pages (navbar, profile, admin)
-        // have accurate, database-backed information.
         let profile = null;
         try {
             const { data: profileData } = await supabase
@@ -95,10 +89,7 @@ class AuthService {
             profile = null;
         }
 
-        const fullName = profile?.full_name
-            || data.user?.user_metadata?.full_name
-            || data.user?.email?.split('@')[0]
-            || 'User';
+        const fullName = profile?.full_name || data.user?.user_metadata?.full_name || data.user?.email?.split('@')[0] || 'User';
 
         const currentUserPayload = profile ? {
             ...profile,
@@ -117,7 +108,7 @@ class AuthService {
     }
 
     static async requestPasswordReset(email) {
-        if (!email) throw new Error('Please enter your email');
+        if (!email) throw new Error('please enter your email');
         
         await supabaseManager.load();
         const supabase = supabaseManager.get();
@@ -132,7 +123,7 @@ class AuthService {
 
     static async updatePassword(newPassword) {
         if (!newPassword || newPassword.length < CONFIG.MIN_PASSWORD_LENGTH) {
-            throw new Error(`Password must be at least ${CONFIG.MIN_PASSWORD_LENGTH} characters`);
+            throw new Error(`password must be at least ${CONFIG.MIN_PASSWORD_LENGTH} characters`);
         }
 
         await supabaseManager.load();

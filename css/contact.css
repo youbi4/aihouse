@@ -204,25 +204,20 @@ animation: expandWidth 0.6s ease 0.3s backwards;
     }
 }
 
-.btn{
-background:linear-gradient(135deg, var(--primary-orange), #ff8a2a);
-color: white;
-border:none;
-padding:12px 32px;
-border-radius:25px;
-margin:20px;
-box-shadow: 0 6px 20px rgba(255, 107, 0, 0.25);
-cursor:pointer;
-transition:all 0.3s ease;
-font-weight: 600;
-font-size: 1rem;
-letter-spacing: 0.5px;
+.location{
+font-weight:700;
+color:var(--primary-orange);
+border: solid 1px var(--primary-orange);
+border-radius: 20px;
+padding: 1%;
+margin:0;
+text-align:center;
+letter-spacing: 0.3px;
+width: 150px;
+margin: 40px auto 0;
+animation: fadeInUp 0.8s ease 0.5s backwards;
 }
 
-.btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 28px rgba(255, 107, 0, 0.35);
-}
 
 
 .social-box{
@@ -268,9 +263,12 @@ animation: slideInUp 0.6s ease backwards;
 }
 
 .card-title{
-font-size:1.3rem;
+font-size:1.1rem;
 font-weight:700;
 color:var(--primary-orange);
+border: solid 1px var(--primary-orange);
+border-radius: 20px;
+padding: 2%;
 margin:0;
 text-align:center;
 letter-spacing: 0.3px;
@@ -456,7 +454,8 @@ transition: all 0.4s ease;
 .social-icons a {
     width: 40px;
     height: 40px;
-    background: rgba(0, 102, 51, 0.1);
+    background: transparent;
+    border: 1px solid var(--primary-green);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -467,9 +466,10 @@ transition: all 0.4s ease;
 }
 
 .social-icons a:hover {
-    background: var(--primary-green);
-    color: white;
-    transform: scale(1.1);
+    background: transparent;
+    border-color: var(--primary-orange);
+    color: var(--primary-orange);
+    transform: scale(1.05);
 }
 
 .social-icons a svg {
@@ -484,7 +484,7 @@ transition: all 0.4s ease;
         width: 95%;
     }
     
-    .hero-slider {
+    .slider {
         width: 600px;
         height: 340px;
     }
